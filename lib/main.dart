@@ -45,6 +45,17 @@ class _PixabayPageState extends State<PixabayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: TextFormField(
+          decoration: const InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+          ),
+          onFieldSubmitted: (text) {
+            print(text);
+          },
+        ),
+      ),
       body: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3),
