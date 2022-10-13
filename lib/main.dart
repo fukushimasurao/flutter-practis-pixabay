@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,6 +24,12 @@ class PixabayPage extends StatefulWidget {
 }
 
 class _PixabayPageState extends State<PixabayPage> {
+  
+  void fetchInages(){
+    Dio().get(path)
+  }
+  
+  
   @override
   Widget build(BuildContext context) {
     return const Scaffold();

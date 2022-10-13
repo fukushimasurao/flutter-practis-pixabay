@@ -14,3 +14,15 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+# 以下メモ
+
+flutterでパッケージ追加
+
+`flutter pub add XXX`
+
+Http通信をする、bioを追加する
+
+```bash
+flutter pub add bio
+```
