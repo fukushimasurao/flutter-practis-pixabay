@@ -29,19 +29,22 @@ class PixabayPage extends StatefulWidget {
 
 class _PixabayPageState extends State<PixabayPage> {
   // 初期値を用意する
-  List hits = [];
+  List<PixabayImage> pixabayImages = [];
 
   Future<void> fetchImages(String text) async {
     final response = await Dio().get(
         'https://pixabay.com/api/?key=30523579-ac10442b817f8d76f382240fa&q=$text&image_type=photo&pretty=true&per_page=100');
 
-    hits = response.data['hits'];
+    final hits = response.data['hits'];
+    hits
+        .map(
+          (e) => PixabayImage.fromMap(e),
+        )
+        .toList();
     setState(() {});
   }
 
-/**
- * 画像をシェアする。
- */
+  /// 画像をシェアする。
   Future<void> shareImage(String url) async {
     // print(hit['likes']);
     // urlから画像をダウンロード
@@ -85,18 +88,18 @@ class _PixabayPageState extends State<PixabayPage> {
       body: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3),
-          itemCount: hits.length,
+          itemCount: pixabayImages.length,
           itemBuilder: (context, index) {
-            final hit = hits[index];
+            final pixabayImage = pixabayImages[index];
             return InkWell(
               onTap: () async {
-                shareImage(hit['webformatURL']);
+                shareImage(pixabayImage.webformatURL);
               },
               child: Stack(
                 fit: StackFit.expand,
                 children: [
                   Image.network(
-                    hit['previewURL'],
+                    pixabayImage.previewURL,
                     fit: BoxFit.cover,
                   ),
                   // alignment: Alignment.bottomRight,
@@ -113,13 +116,32 @@ class _PixabayPageState extends State<PixabayPage> {
                                 Icons.thumb_up_alt_outlined,
                                 size: 14,
                               ),
-                              Text('${hit['likes']}'),
+                              Text('${pixabayImage.likes}'),
                             ],
                           ))),
                 ],
               ),
             );
           }),
+    );
+  }
+}
+
+class PixabayImage {
+  final String webformatURL;
+  final String previewURL;
+  final int likes;
+
+  PixabayImage(
+      {required this.webformatURL,
+      required this.previewURL,
+      required this.likes});
+
+  factory PixabayImage.fromMap(Map<String, dynamic> map) {
+    return PixabayImage(
+      webformatURL: map['webformatURL'],
+      previewURL: map['previewURL'],
+      likes: map['likes'],
     );
   }
 }
