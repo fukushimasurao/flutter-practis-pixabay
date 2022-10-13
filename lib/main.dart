@@ -69,7 +69,7 @@ class _PixabayPageState extends State<PixabayPage> {
             Map<String, dynamic> hit = hits[index];
             return InkWell(
               onTap: () async {
-                print(hit['likes']);
+                // print(hit['likes']);
                 // urlから画像をダウンロード
                 Response response = await Dio().get(hit['webformatURL'],
                     options: Options(responseType: ResponseType.bytes));
