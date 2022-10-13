@@ -32,7 +32,7 @@ class _PixabayPageState extends State<PixabayPage> {
   List hits = [];
 
   Future<void> fetchImages(String text) async {
-    Response response = await Dio().get(
+    final response = await Dio().get(
         'https://pixabay.com/api/?key=30523579-ac10442b817f8d76f382240fa&q=$text&image_type=photo&pretty=true&per_page=100');
 
     hits = response.data['hits'];
@@ -66,17 +66,17 @@ class _PixabayPageState extends State<PixabayPage> {
               crossAxisCount: 3),
           itemCount: hits.length,
           itemBuilder: (context, index) {
-            Map<String, dynamic> hit = hits[index];
+            final hit = hits[index];
             return InkWell(
               onTap: () async {
                 // print(hit['likes']);
                 // urlから画像をダウンロード
-                Response response = await Dio().get(hit['webformatURL'],
+                final response = await Dio().get(hit['webformatURL'],
                     options: Options(responseType: ResponseType.bytes));
 
                 // 画像データをファイルに保存
                 // 一時的に保存可能なファイルを取得
-                Directory dir = await getTemporaryDirectory();
+                final dir = await getTemporaryDirectory();
 
                 // ふぁいるを保存する。
                 File file = await File('${dir.path}/image.png')
