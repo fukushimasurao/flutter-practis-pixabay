@@ -66,6 +66,9 @@ class _PixabayPageState extends State<PixabayPage> {
             return InkWell(
               onTap: () {
                 print(hit['likes']);
+                // urlから画像をダウンロード
+                // 画像データをファイルに保存
+                // shereパッケージを呼び出し共有k
               },
               child: Stack(
                 fit: StackFit.expand,
