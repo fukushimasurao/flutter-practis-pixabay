@@ -36,3 +36,8 @@ async,awaitを利用する。
 ### initState
 
 initStateは最初に１度だけ呼ばれる。
+
+### intを文字列にする
+
+'${int}'でok
+

@@ -63,7 +63,37 @@ class _PixabayPageState extends State<PixabayPage> {
           itemCount: hits.length,
           itemBuilder: (context, index) {
             Map<String, dynamic> hit = hits[index];
-            return Image.network(hit['previewURL']);
+            return InkWell(
+              onTap: () {
+                print(hit['likes']);
+              },
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.network(
+                    hit['previewURL'],
+                    fit: BoxFit.cover,
+                  ),
+                  // alignment: Alignment.bottomRight,
+
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                          color: Colors.white,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Text('${hit['likes']}'),
+                              const Icon(
+                                Icons.thumb_up_alt_outlined,
+                                size: 14,
+                              ),
+                              Text('${hit['likes']}'),
+                            ],
+                          ))),
+                ],
+              ),
+            );
           }),
     );
   }
