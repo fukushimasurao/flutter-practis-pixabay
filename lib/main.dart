@@ -39,6 +39,27 @@ class _PixabayPageState extends State<PixabayPage> {
     setState(() {});
   }
 
+/**
+ * 画像をシェアする。
+ */
+  Future<void> shareImage(String url) async {
+    // print(hit['likes']);
+    // urlから画像をダウンロード
+    final response = await Dio()
+        .get(url, options: Options(responseType: ResponseType.bytes));
+
+    // 画像データをファイルに保存
+    // 一時的に保存可能なファイルを取得
+    final dir = await getTemporaryDirectory();
+
+    // ふぁいるを保存する。
+    File file = await File('${dir.path}/image.png').writeAsBytes(response.data);
+
+    // print(file.path);
+    // shereパッケージを呼び出し共有
+    Share.shareFiles([file.path]);
+  }
+
   @override
   void initState() {
     // initStateは最初に１度だけ呼ばれる。
@@ -69,22 +90,7 @@ class _PixabayPageState extends State<PixabayPage> {
             final hit = hits[index];
             return InkWell(
               onTap: () async {
-                // print(hit['likes']);
-                // urlから画像をダウンロード
-                final response = await Dio().get(hit['webformatURL'],
-                    options: Options(responseType: ResponseType.bytes));
-
-                // 画像データをファイルに保存
-                // 一時的に保存可能なファイルを取得
-                final dir = await getTemporaryDirectory();
-
-                // ふぁいるを保存する。
-                File file = await File('${dir.path}/image.png')
-                    .writeAsBytes(response.data);
-
-                // print(file.path);
-                // shereパッケージを呼び出し共有
-                Share.shareFiles([file.path]);
+                shareImage(hit['webformatURL']);
               },
               child: Stack(
                 fit: StackFit.expand,
