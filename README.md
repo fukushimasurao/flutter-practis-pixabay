@@ -26,3 +26,13 @@ Http通信をする、bioを追加する
 ```bash
 flutter pub add bio
 ```
+
+### Future型を受け取る時
+
+Future型は時間がかかる。
+async,awaitを利用する。
+引数にも、Futureをつけてあげる。
+
+### initState
+
+initStateは最初に１度だけ呼ばれる。

@@ -24,14 +24,35 @@ class PixabayPage extends StatefulWidget {
 }
 
 class _PixabayPageState extends State<PixabayPage> {
-  
-  void fetchInages(){
-    Dio().get(path)
+  // 初期値を用意する
+  List hits = [];
+
+  Future<void> fetchImages() async {
+    Response response = await Dio().get(
+        'https://pixabay.com/api/?key=30523579-ac10442b817f8d76f382240fa&q=犬&image_type=photo&pretty=true&per_page=100');
+
+    hits = response.data['hits'];
+    setState(() {});
   }
-  
-  
+
+  @override
+  void initState() {
+    // initStateは最初に１度だけ呼ばれる。
+    super.initState();
+    fetchImages();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3),
+          itemCount: hits.length,
+          itemBuilder: (context, index) {
+            Map<String, dynamic> hit = hits[index];
+            return Image.network(hit['previewURL']);
+          }),
+    );
   }
 }
