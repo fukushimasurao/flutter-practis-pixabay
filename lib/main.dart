@@ -27,9 +27,9 @@ class _PixabayPageState extends State<PixabayPage> {
   // 初期値を用意する
   List hits = [];
 
-  Future<void> fetchImages() async {
+  Future<void> fetchImages(String text) async {
     Response response = await Dio().get(
-        'https://pixabay.com/api/?key=30523579-ac10442b817f8d76f382240fa&q=犬&image_type=photo&pretty=true&per_page=100');
+        'https://pixabay.com/api/?key=30523579-ac10442b817f8d76f382240fa&q=$text&image_type=photo&pretty=true&per_page=100');
 
     hits = response.data['hits'];
     setState(() {});
@@ -39,7 +39,7 @@ class _PixabayPageState extends State<PixabayPage> {
   void initState() {
     // initStateは最初に１度だけ呼ばれる。
     super.initState();
-    fetchImages();
+    fetchImages('花');
   }
 
   @override
@@ -47,12 +47,13 @@ class _PixabayPageState extends State<PixabayPage> {
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
+          initialValue: '花',
           decoration: const InputDecoration(
             fillColor: Colors.white,
             filled: true,
           ),
           onFieldSubmitted: (text) {
-            print(text);
+            fetchImages(text);
           },
         ),
       ),
